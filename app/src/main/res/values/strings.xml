@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2021 Marco Cattaneo
+  ~ Copyright 2022 Marco Dalla Ba'
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,5 +15,11 @@
   -->
 
 <resources>
-    <string name="app_name">android-compose-template</string>
+    <string name="app_name">Beer Box</string>
+    <string name="beer_name">Beer</string>
+    <string name="box_name">Box</string>
+    <string name="search">Search</string>
+    <string name="weekend_offers">Weekend Offers</string>
+    <string name="free_shipping_on_orders_over_60">Free shipping on orders over 60€</string>
+    <string name="more_info">MORE INFO</string>
 </resources>

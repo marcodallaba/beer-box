@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Dalla Ba'
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.androidcomposetemplate.navigation.routing
+package it.marcodallaba.beerbox.di
 
-import androidx.navigation.NavType
+import dagger.hilt.android.HiltAndroidApp
+import it.marcodallaba.beerbox.BaseApplication
 
-/**
- * Arguments Options specify for the argument keys used on the Screen Routes
- * @param type argument type
- * @param optional true if argument is optional
- */
-class ArgumentOptions(
-    var type: NavType<*> = NavType.StringType,
-    var optional: Boolean = false
-)
+@HiltAndroidApp
+open class MyApplication: BaseApplication()

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Dalla Ba'
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 object AppConfiguration {
-    const val APPLICATION_ID = "dev.marcocattaneo.androidcomposetemplate"
+    const val APPLICATION_ID = "it.marcodallaba.beerbox"
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0"
 }

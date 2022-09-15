@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2022 Marco Dalla Ba'
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +14,12 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <color name="colorPrimary">#0E181C</color>
-    <color name="colorPrimaryLight">#1C262B</color>
-    <color name="colorPrimaryDark">#0C1418</color>
-    <color name="colorAccent">#F2B14E</color>
-</resources>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.MainActivity">
+
+</LinearLayout>

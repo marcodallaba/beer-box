@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Dalla Ba'
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,10 +51,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        viewBinding = true
     }
     packagingOptions {
         resources {
@@ -72,20 +69,10 @@ dependencies {
     implementation(AndroidXLibs.APP_COMPACT)
     implementation(AndroidLibs.MATERIAL)
 
-    implementation(ComposeLibs.UI)
-    implementation(ComposeLibs.MATERIAL)
-    implementation(ComposeLibs.TOOLING_PREVIEW)
-    implementation(ComposeLibs.NAVIGATION)
-    implementation(ComposeLibs.HILT_NAVIGATION)
-    implementation(ComposeLibs.ACTIVITY)
-
     testImplementation(TestLibs.JUNIT)
     androidTestImplementation(AndroidXTestLibs.JUNIT)
-    androidTestImplementation(ComposeLibs.UI_TEST)
 
     implementation(HiltLibs.ANDROID)
     kapt(HiltLibs.ANDROID_COMPILER)
 
-    debugImplementation(ComposeLibs.TOOLING)
-    debugImplementation(ComposeLibs.TOOLING_PREVIEW)
 }

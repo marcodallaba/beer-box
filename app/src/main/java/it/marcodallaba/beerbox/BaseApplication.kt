@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Dalla Ba'
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.androidcomposetemplate.di.scope
+package it.marcodallaba.beerbox
 
-import javax.inject.Scope
+import android.app.Application
 
-@Scope
-annotation class ComposableScope
+open class BaseApplication: Application()
