@@ -22,6 +22,8 @@ object Versions {
     const val RETROFIT = "2.9.0"
     const val PAGING = "3.1.1"
     const val LIFECYCLE = "2.5.1"
+    const val PICASSO = "2.71828"
+    const val FRAGMENT = "1.5.2"
 }
 
 object Sdk {
@@ -42,12 +44,14 @@ object AndroidXLibs {
     const val CORE = "androidx.core:core-ktx:1.7.0"
     const val PAGING_RUNTIME = "androidx.paging:paging-runtime:${Versions.PAGING}"
     const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
+    const val FRAGMENT = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
 }
 
-object RetrofitLibs {
+object SquareUpLibs {
     const val LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${Versions.LOGGING_INTERCEPTOR}"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
     const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
+    const val PICASSO = "com.squareup.picasso:picasso:${Versions.PICASSO}"
 }
 
 object AndroidXTestLibs {
