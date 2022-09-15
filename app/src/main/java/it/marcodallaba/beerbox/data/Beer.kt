@@ -1,6 +1,7 @@
 package it.marcodallaba.beerbox.data
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Beer(
     val id: Int,
@@ -11,4 +12,4 @@ data class Beer(
     @field:SerializedName("image_url")
     val imageUrl: String?,
     val ebc: Float
-)
+) : Serializable

@@ -16,10 +16,16 @@
 
 package it.marcodallaba.beerbox.ui
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import it.marcodallaba.beerbox.R
 import it.marcodallaba.beerbox.databinding.ActivityMainBinding
+import it.marcodallaba.beerbox.ui.beers.BeersFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -30,5 +36,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        binding.toolbarTitle.text = SpannableStringBuilder().append(getString(R.string.beer_name))
+            .append(" ")
+            .append(
+                getString(R.string.box_name),
+                StyleSpan(Typeface.BOLD),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+        if (savedInstanceState == null)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, BeersFragment.newInstance())
+                .commit()
     }
 }
