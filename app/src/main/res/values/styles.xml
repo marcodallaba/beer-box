@@ -25,4 +25,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.BeerBox.Chip" parent="@style/TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="BeerBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/beer_bottom_sheet_background</item>
+    </style>
+
+    <style name="BeerBottomSheetDialogFragment" parent="@style/Theme.Design.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BeerBottomSheetStyle</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="BeerAppBarLayout" parent="@style/Widget.Design.AppBarLayout">
+        <item name="backgroundColor">@color/colorPrimary</item>
+    </style>
+
 </resources>
+
