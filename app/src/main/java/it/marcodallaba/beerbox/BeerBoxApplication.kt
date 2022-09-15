@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package it.marcodallaba.beerbox.di
+package it.marcodallaba.beerbox
 
+import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import it.marcodallaba.beerbox.BaseApplication
 
 @HiltAndroidApp
-open class MyApplication: BaseApplication()
+open class BeerBoxApplication: Application()
