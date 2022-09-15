@@ -21,20 +21,19 @@ fun Beer.type(): BeerType {
     }
 }
 
-enum class BeerType(val displayName: String) {
-    UNKNOWN("Unknown"),
-    PALE_LAGER("Pale Lager"),
-    BLONDE_ALE("Blonde Ale"),
-    WEISSBIER("Weissbier"),
-    PALE_ALE("Pale Ale"),
-    SAISON("Saison"),
-    EBS("EBS"),
-    DOUBLE_IPA("Double IPA"),
-    DARK_LAGER("Dark Lager"),
-    AMBER_ALE("Amber Ale"),
-    BROWN_ALE("Brown Ale"),
-    STOUT("Stout"),
-    IMPERIAL_STOUT("Imperial Stout");
+enum class BeerType(val displayName: String, val minEbc: Float?, val maxEbc: Float?) {
+    UNKNOWN("Unknown", null, null),
+    PALE_LAGER("Pale Lager", null, 5.9f),
+    BLONDE_ALE("Blonde Ale", 6.0f, 7.9f),
+    WEISSBIER("Weissbier", 8.0f, 11.9f),
+    PALE_ALE("Pale Ale", 12.0f, 15.9f),
+    SAISON("Saison", 16.0f, 19.9f),
+    EBS("EBS", 20.0f, 25.9f),
+    DOUBLE_IPA("Double IPA", 26.0f, 32.9f),
+    AMBER_ALE("Amber Ale", 33.0f, 38.9f),
+    BROWN_ALE("Brown Ale", 39.0f, 46.9f),
+    STOUT("Stout", 47.0f, 78.9f),
+    IMPERIAL_STOUT("Imperial Stout", 79f, null);
 }
 
 enum class BeerTypeId(@IdRes val id: Int) {
@@ -46,7 +45,6 @@ enum class BeerTypeId(@IdRes val id: Int) {
     SAISON(View.generateViewId()),
     EBS(View.generateViewId()),
     DOUBLE_IPA(View.generateViewId()),
-    DARK_LAGER(View.generateViewId()),
     AMBER_ALE(View.generateViewId()),
     BROWN_ALE(View.generateViewId()),
     STOUT(View.generateViewId()),

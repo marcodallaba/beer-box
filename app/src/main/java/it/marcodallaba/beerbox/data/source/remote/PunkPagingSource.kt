@@ -3,16 +3,20 @@ package it.marcodallaba.beerbox.data.source.remote
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import it.marcodallaba.beerbox.data.Beer
+import it.marcodallaba.beerbox.util.BeerType
 
 
 class PunkPagingSource(
-    private val service: PunkService
+    private val service: PunkService,
+    private val query: String?,
+    private val beerType: BeerType?
 ) : PagingSource<Int, Beer>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Beer> {
         val page = params.key ?: STARTING_PAGE_INDEX
         return try {
-            val beersList = service.getBeers(page, params.loadSize)
+            val beersList =
+                service.getBeers(query, beerType?.minEbc, beerType?.maxEbc, page, params.loadSize)
             val reachedLastPage = beersList.isEmpty()
             LoadResult.Page(
                 data = beersList,

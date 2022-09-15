@@ -69,7 +69,10 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
         binding.recyclerView.addItemDecoration(dividerItemDecoration)
 
         binding.searchView.setOnQueryTextListener(this)
-        binding.searchView.setOnCloseListener(this)
+
+        val searchCloseButtonId = binding.searchView.context.resources
+            .getIdentifier("android:id/search_close_btn", null, null)
+        binding.searchView.findViewById<View>(searchCloseButtonId).setOnClickListener { onClose() }
 
         beersAdapter.onMoreInfo.observe(viewLifecycleOwner) {
             openBeerBottomSheet(it)
@@ -78,7 +81,7 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
         addFilters(beersViewModel.beerTypes)
     }
 
-    private fun searchBeers(query: String? = null) {
+    private fun searchBeers() {
         // Make sure we cancel the previous job before creating a new one
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
@@ -91,20 +94,24 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
     override fun onClose(): Boolean {
         binding.searchView.setQuery("", true)
         binding.searchView.clearFocus()
+        beersViewModel.currentQuery = null
+        searchBeers()
         return false
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         if (query != null) {
-            searchBeers(query)
-            binding.searchView.clearFocus()
+            beersViewModel.currentQuery = query
+            searchBeers()
         }
         return true
     }
 
     override fun onQueryTextSubmit(newText: String?): Boolean {
         if (newText != null) {
-            searchBeers(newText)
+            beersViewModel.currentQuery = newText
+            searchBeers()
+            binding.searchView.clearFocus()
         }
         return true
     }
@@ -120,9 +127,11 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
 
     private fun onChipChanged(view: CompoundButton, isChecked: Boolean) {
         if (isChecked) {
-            //beerViewModel.addFilter(view.tag as BeerType)
+            beersViewModel.currentBeerType = (view.tag as BeerType)
+            searchBeers()
         } else {
-            //beerViewModel.removeFilter(view.tag as BeerType)
+            beersViewModel.currentBeerType = null
+            searchBeers()
         }
     }
 
