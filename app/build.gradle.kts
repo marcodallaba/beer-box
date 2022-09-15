@@ -68,11 +68,17 @@ dependencies {
     implementation(AndroidXLibs.CORE)
     implementation(AndroidXLibs.APP_COMPACT)
     implementation(AndroidLibs.MATERIAL)
+    implementation(AndroidXLibs.PAGING_RUNTIME)
+    implementation(AndroidXLibs.LIFECYCLE_VIEWMODEL)
 
     testImplementation(TestLibs.JUNIT)
     androidTestImplementation(AndroidXTestLibs.JUNIT)
 
     implementation(HiltLibs.ANDROID)
     kapt(HiltLibs.ANDROID_COMPILER)
+
+    implementation(RetrofitLibs.LOGGING_INTERCEPTOR)
+    implementation(RetrofitLibs.RETROFIT)
+    implementation(RetrofitLibs.CONVERTER_GSON)
 
 }

@@ -18,6 +18,10 @@ object Versions {
     const val ACTIVITY = "1.5.0"
     const val KOTLIN = "1.7.0"
     const val HILT = "2.42"
+    const val LOGGING_INTERCEPTOR = "4.9.3"
+    const val RETROFIT = "2.9.0"
+    const val PAGING = "3.1.1"
+    const val LIFECYCLE = "2.5.1"
 }
 
 object Sdk {
@@ -36,6 +40,14 @@ object HiltLibs {
 object AndroidXLibs {
     const val APP_COMPACT= "androidx.appcompat:appcompat:${Versions.ACTIVITY}"
     const val CORE = "androidx.core:core-ktx:1.7.0"
+    const val PAGING_RUNTIME = "androidx.paging:paging-runtime:${Versions.PAGING}"
+    const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
+}
+
+object RetrofitLibs {
+    const val LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${Versions.LOGGING_INTERCEPTOR}"
+    const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
+    const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
 }
 
 object AndroidXTestLibs {
