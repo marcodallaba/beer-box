@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+plugins {
+    id("com.github.ben-manes.versions") version "0.42.0"
+}
+
 buildscript {
     repositories {
         google()
@@ -29,5 +33,11 @@ buildscript {
 tasks {
     register("clean", Delete::class.java) {
         delete(rootProject.buildDir)
+    }
+
+    withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>().configureEach {
+        rejectVersionIf {
+            candidate.version.isStableVersion().not()
+        }
     }
 }

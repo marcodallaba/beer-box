@@ -15,15 +15,17 @@
  */
 
 object Versions {
-    const val ACTIVITY = "1.5.0"
+    const val ACTIVITY = "1.5.1"
+    const val CORE = "1.9.0"
     const val KOTLIN = "1.7.0"
-    const val HILT = "2.42"
+    const val HILT = "2.43.2"
     const val LOGGING_INTERCEPTOR = "4.9.3"
     const val RETROFIT = "2.9.0"
     const val PAGING = "3.1.1"
     const val LIFECYCLE = "2.5.1"
     const val PICASSO = "2.71828"
     const val FRAGMENT = "1.5.2"
+    const val ROOM = "2.4.3"
 }
 
 object Sdk {
@@ -41,10 +43,13 @@ object HiltLibs {
 
 object AndroidXLibs {
     const val APP_COMPACT= "androidx.appcompat:appcompat:${Versions.ACTIVITY}"
-    const val CORE = "androidx.core:core-ktx:1.7.0"
+    const val CORE = "androidx.core:core-ktx:${Versions.CORE}"
     const val PAGING_RUNTIME = "androidx.paging:paging-runtime:${Versions.PAGING}"
     const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
     const val FRAGMENT = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
+    const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
+    const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
+    const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
 }
 
 object SquareUpLibs {

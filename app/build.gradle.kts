@@ -71,6 +71,9 @@ dependencies {
     implementation(AndroidLibs.MATERIAL)
     implementation(AndroidXLibs.PAGING_RUNTIME)
     implementation(AndroidXLibs.LIFECYCLE_VIEWMODEL)
+    implementation(AndroidXLibs.ROOM_RUNTIME)
+    implementation(AndroidXLibs.ROOM_KTX)
+    kapt(AndroidXLibs.ROOM_COMPILER)
 
     testImplementation(TestLibs.JUNIT)
     androidTestImplementation(AndroidXTestLibs.JUNIT)
