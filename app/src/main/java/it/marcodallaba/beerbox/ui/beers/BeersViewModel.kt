@@ -20,9 +20,18 @@ class BeersViewModel @Inject constructor(private val beersRepository: BeersRepos
         .sortedBy { it.displayName }
 
     var currentQuery: String? = null
+        set(value) {
+            field = if (value != null && value.isEmpty()) {
+                null
+            } else {
+                value
+            }
+        }
+
     var currentBeerType: BeerType? = null
 
     fun getBeers(): Flow<PagingData<Beer>> {
-        return beersRepository.getBeersStream(currentQuery, currentBeerType).cachedIn(viewModelScope)
+        return beersRepository.getBeersStream(currentQuery, currentBeerType)
+            .cachedIn(viewModelScope)
     }
 }

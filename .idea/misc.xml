@@ -5,10 +5,13 @@
       <map>
         <entry key="../../../../layout/compose-model-1638257785631.xml" value="0.6831168831168831" />
         <entry key="app/src/main/res/drawable-v24/beer_bottom_sheet_background.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/beer_bottom_sheet_dialog.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/beer_item.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/fragment_beers.xml" value="0.15806159420289856" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>

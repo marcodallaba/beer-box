@@ -16,7 +16,7 @@ class PunkPagingSource(
         val page = params.key ?: STARTING_PAGE_INDEX
         return try {
             val beersList =
-                service.getBeers(query, beerType?.minEbc, beerType?.maxEbc, page, params.loadSize)
+                service.getBeers(query, beerType?.ebcGt, beerType?.ebcLt, page, params.loadSize)
             val reachedLastPage = beersList.isEmpty()
             LoadResult.Page(
                 data = beersList,
