@@ -60,7 +60,7 @@ class BeersRemoteMediator(
                     beersDao.clearAllBeers()
                 }
 
-                // Insert new users into database, which invalidates the
+                // Insert new beers into database, which invalidates the
                 // current PagingData, allowing Paging to present the updates
                 // in the DB.
                 val insertTime = System.currentTimeMillis()
