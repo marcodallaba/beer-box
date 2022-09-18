@@ -35,6 +35,16 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas",
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true"
+                )
+            }
+        }
     }
 
     buildTypes {
@@ -73,6 +83,7 @@ dependencies {
     implementation(AndroidXLibs.LIFECYCLE_VIEWMODEL)
     implementation(AndroidXLibs.ROOM_RUNTIME)
     implementation(AndroidXLibs.ROOM_KTX)
+    implementation(AndroidXLibs.ROOM_PAGING)
     kapt(AndroidXLibs.ROOM_COMPILER)
 
     testImplementation(TestLibs.JUNIT)
