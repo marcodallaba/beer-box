@@ -31,7 +31,11 @@ class BeersViewModel @Inject constructor(private val beersRepository: BeersRepos
     var currentBeerType: BeerType? = null
 
     fun getBeers(): Flow<PagingData<Beer>> {
-        return beersRepository.getBeersStream(currentQuery, currentBeerType)
+        return beersRepository.getBeersPager(NETWORK_PAGE_SIZE)
             .cachedIn(viewModelScope)
+    }
+
+    companion object {
+        private const val NETWORK_PAGE_SIZE = 25
     }
 }
