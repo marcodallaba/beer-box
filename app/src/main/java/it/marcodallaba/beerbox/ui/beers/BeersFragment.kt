@@ -85,7 +85,7 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
         // Make sure we cancel the previous job before creating a new one
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            beersViewModel.getBeers().collectLatest {
+            beersViewModel.beers.collectLatest {
                 beersAdapter.submitData(it)
             }
         }
@@ -94,7 +94,7 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
     override fun onClose(): Boolean {
         binding.searchView.setQuery("", true)
         binding.searchView.clearFocus()
-        beersViewModel.currentQuery = null
+        beersViewModel.currentQuery = ""
         searchBeers()
         return false
     }

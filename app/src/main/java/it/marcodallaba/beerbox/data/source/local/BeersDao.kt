@@ -20,5 +20,5 @@ interface BeersDao {
     suspend fun clearAllBeers()
 
     @Query("SELECT MIN(insertTime) FROM beer")
-    suspend fun getOldestInsertTime(): Long
+    suspend fun getOldestInsertTime(): Long?
 }

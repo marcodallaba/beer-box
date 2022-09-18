@@ -19,7 +19,4 @@ class BeersRepository @Inject constructor(
         db.beersDao().getBeersPagingSource()
     }.flow
 
-    companion object {
-        private const val NETWORK_PAGE_SIZE = 25
-    }
 }

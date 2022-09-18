@@ -21,19 +21,19 @@ fun Beer.type(): BeerType {
     }
 }
 
-enum class BeerType(val displayName: String, val ebcGt: Float?, val ebcLt: Float?) {
-    UNKNOWN("Unknown", null, null),
-    PALE_LAGER("Pale Lager", null, 6.0f),
-    BLONDE_ALE("Blonde Ale", 5.9f, 8f),
-    WEISSBIER("Weissbier", 7.9f, 12f),
-    PALE_ALE("Pale Ale", 11.9f, 16f),
-    SAISON("Saison", 15.9f, 20f),
-    EBS("EBS", 19.9f, 26f),
-    DOUBLE_IPA("Double IPA", 25.9f, 33f),
-    AMBER_ALE("Amber Ale", 32.9f, 39f),
-    BROWN_ALE("Brown Ale", 38.9f, 47f),
-    STOUT("Stout", 46.9f, 79f),
-    IMPERIAL_STOUT("Imperial Stout", 79.9f, null);
+enum class BeerType(val displayName: String) {
+    UNKNOWN("Unknown"),
+    PALE_LAGER("Pale Lager"),
+    BLONDE_ALE("Blonde Ale"),
+    WEISSBIER("Weissbier"),
+    PALE_ALE("Pale Ale"),
+    SAISON("Saison"),
+    EBS("EBS"),
+    DOUBLE_IPA("Double IPA"),
+    AMBER_ALE("Amber Ale"),
+    BROWN_ALE("Brown Ale"),
+    STOUT("Stout"),
+    IMPERIAL_STOUT("Imperial Stout");
 }
 
 enum class BeerTypeId(@IdRes val id: Int) {

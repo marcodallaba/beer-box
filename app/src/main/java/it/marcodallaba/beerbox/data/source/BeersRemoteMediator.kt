@@ -52,11 +52,7 @@ class BeersRemoteMediator(
             // Retrofit's Coroutine CallAdapter dispatches on a worker
             // thread.
             val response = punkService.getBeers(
-                beerName = null,
-                minEgt = null,
-                maxEgt = null,
-                page = loadKey,
-                perPage = state.config.pageSize
+                page = loadKey, perPage = state.config.pageSize
             )
 
             database.withTransaction {
@@ -85,7 +81,7 @@ class BeersRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
-        val oldestInsertTime = beersDao.getOldestInsertTime()
+        val oldestInsertTime = beersDao.getOldestInsertTime() ?: return InitializeAction.LAUNCH_INITIAL_REFRESH
         return if (System.currentTimeMillis() - oldestInsertTime <= cacheTimeout) {
             // Cached data is up-to-date, so there is no need to re-fetch
             // from the network.
