@@ -6,8 +6,10 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import it.marcodallaba.beerbox.data.Beer
+import it.marcodallaba.beerbox.data.RemoteKeys
 import it.marcodallaba.beerbox.data.source.local.BeersDao
 import it.marcodallaba.beerbox.data.source.local.BeersDatabase
+import it.marcodallaba.beerbox.data.source.local.RemoteKeysDao
 import it.marcodallaba.beerbox.data.source.remote.PunkService
 import retrofit2.HttpException
 import java.io.IOException
@@ -20,46 +22,47 @@ class BeersRemoteMediator(
 ) : RemoteMediator<Int, Beer>() {
 
     private val beersDao: BeersDao = database.beersDao()
+    private val remoteKeysDao: RemoteKeysDao = database.remoteKeysDao()
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Beer>): MediatorResult {
         return try {
-            // The network load method takes an optional after=<beer.id>
-            // parameter. For every page after the first, pass the last user
-            // ID to let it continue from where it left off. For REFRESH,
-            // pass null to load the first page.
-            val loadKey: Int = when (loadType) {
-                LoadType.REFRESH -> 1
-                // In this example, you never need to prepend, since REFRESH
-                // will always load the first page in the list. Immediately
-                // return, reporting end of pagination.
-                LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
-                LoadType.APPEND -> {
-                    val lastItem = state.lastItemOrNull() ?: return MediatorResult.Success(
-                        endOfPaginationReached = true
+            val page: Int = when (loadType) {
+                LoadType.REFRESH -> {
+                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                    remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
+                }
+                LoadType.PREPEND -> {
+                    val remoteKeys = getRemoteKeyForFirstItem(state)
+                    val prevKey = remoteKeys?.prevKey ?: return MediatorResult.Success(
+                        endOfPaginationReached = remoteKeys != null
                     )
-
-                    // You must explicitly check if the last item is null when
-                    // appending, since passing null to networkService is only
-                    // valid for initial load. If lastItem is null it means no
-                    // items were loaded after the initial REFRESH and there are
-                    // no more items to load.
-                    lastItem.id / state.config.pageSize + 1
+                    prevKey
+                }
+                LoadType.APPEND -> {
+                    val remoteKeys = getRemoteKeyForLastItem(state)
+                    val nextKey = remoteKeys?.nextKey ?: return MediatorResult.Success(
+                        endOfPaginationReached = remoteKeys != null
+                    )
+                    nextKey
                 }
             }
 
-            // Suspending network load via Retrofit. This doesn't need to be
-            // wrapped in a withContext(Dispatcher.IO) { ... } block since
-            // Retrofit's Coroutine CallAdapter dispatches on a worker
-            // thread.
             val response = punkService.getBeers(
-                page = loadKey, perPage = state.config.pageSize
+                page = page, perPage = state.config.pageSize
             )
+            val endOfPaginationReached = response.isEmpty()
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     beersDao.clearAllBeers()
+                    remoteKeysDao.clearRemoteKeys()
                 }
-
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+                val keys = response.map {
+                    RemoteKeys(beerId = it.id, prevKey = prevKey, nextKey = nextKey)
+                }
+                remoteKeysDao.insertAll(keys)
                 // Insert new beers into database, which invalidates the
                 // current PagingData, allowing Paging to present the updates
                 // in the DB.
@@ -69,7 +72,7 @@ class BeersRemoteMediator(
             }
 
             MediatorResult.Success(
-                endOfPaginationReached = response.isEmpty()
+                endOfPaginationReached = endOfPaginationReached
             )
         } catch (e: IOException) {
             MediatorResult.Error(e)
@@ -81,7 +84,8 @@ class BeersRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
-        val oldestInsertTime = beersDao.getOldestInsertTime() ?: return InitializeAction.LAUNCH_INITIAL_REFRESH
+        val oldestInsertTime =
+            beersDao.getOldestInsertTime() ?: return InitializeAction.LAUNCH_INITIAL_REFRESH
         return if (System.currentTimeMillis() - oldestInsertTime <= cacheTimeout) {
             // Cached data is up-to-date, so there is no need to re-fetch
             // from the network.
@@ -94,4 +98,37 @@ class BeersRemoteMediator(
         }
     }
 
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Beer>): RemoteKeys? {
+        // Get the last page that was retrieved, that contained items.
+        // From that last page, get the last item
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { beer ->
+            // Get the remote keys of the last item retrieved
+            remoteKeysDao.remoteKeysBeerId(beer.id)
+        }
+    }
+
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Beer>): RemoteKeys? {
+        // Get the first page that was retrieved, that contained items.
+        // From that first page, get the first item
+        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { beer ->
+                // Get the remote keys of the first items retrieved
+                remoteKeysDao.remoteKeysBeerId(beer.id)
+            }
+    }
+
+    private suspend fun getRemoteKeyClosestToCurrentPosition(
+        state: PagingState<Int, Beer>
+    ): RemoteKeys? {
+        // The paging library is trying to load data after the anchor position
+        // Get the item closest to the anchor position
+        return state.anchorPosition?.let { position ->
+            state.closestItemToPosition(position)?.id?.let { beerId ->
+                remoteKeysDao.remoteKeysBeerId(beerId)
+            }
+        }
+    }
+
+    companion object {
+        const val STARTING_PAGE_INDEX = 1
+    }
 }
