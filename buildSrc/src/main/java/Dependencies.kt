@@ -17,14 +17,14 @@
 object Versions {
     const val ACTIVITY = "1.5.1"
     const val CORE = "1.9.0"
-    const val KOTLIN = "1.7.0"
-    const val HILT = "2.43.2"
-    const val LOGGING_INTERCEPTOR = "4.9.3"
+    const val KOTLIN = "1.7.22"
+    const val HILT = "2.44.2"
+    const val LOGGING_INTERCEPTOR = "4.10.0"
     const val RETROFIT = "2.9.0"
     const val PAGING = "3.1.1"
     const val LIFECYCLE = "2.5.1"
     const val PICASSO = "2.71828"
-    const val FRAGMENT = "1.5.2"
+    const val FRAGMENT = "1.5.5"
     const val ROOM = "2.4.3"
 }
 
@@ -69,5 +69,5 @@ object TestLibs {
 }
 
 object AndroidLibs {
-    const val MATERIAL = "com.google.android.material:material:1.6.1"
+    const val MATERIAL = "com.google.android.material:material:1.7.0"
 }
