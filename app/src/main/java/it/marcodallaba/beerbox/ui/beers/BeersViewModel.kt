@@ -4,13 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.marcodallaba.beerbox.data.Beer
 import it.marcodallaba.beerbox.data.source.BeersRepository
 import it.marcodallaba.beerbox.util.BeerType
-import it.marcodallaba.beerbox.util.type
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,25 +17,31 @@ class BeersViewModel @Inject constructor(private val beersRepository: BeersRepos
 
     val beerTypes = BeerType.values().filter { it != BeerType.UNKNOWN }.sortedBy { it.displayName }
 
-    var currentQuery: String = ""
+    private var currentBeerType: BeerType? = null
 
-    var currentBeerType: BeerType? = null
+    private var currentQuery: String = ""
 
-    private val beersSource =
-        beersRepository.getBeersPager(NETWORK_PAGE_SIZE).cachedIn(viewModelScope)
+    var beers: Flow<PagingData<Beer>> =
+        beersRepository.getBeersPager(NETWORK_PAGE_SIZE, currentQuery, currentBeerType)
+            .cachedIn(viewModelScope)
 
-    val beers = beersSource.map { pagingData: PagingData<Beer> ->
-        pagingData.filter { beer ->
-            val queryFilter = beer.name.contains(currentQuery, true) || beer.tagLine?.contains(
-                currentQuery, true
-            ) == true || beer.description?.contains(currentQuery, true) == true
-
-            val beerTypeFilter = currentBeerType == null || beer.type() == currentBeerType
-
-            queryFilter && beerTypeFilter
-        }
+    fun filterBeersByNameOrDescription(query: String) {
+        currentQuery = query
+        refreshBeers()
     }
 
+    fun filterBeersByBeerType(beerType: BeerType?) {
+        currentBeerType = beerType
+        refreshBeers()
+    }
+
+    private fun refreshBeers() {
+        beers = beersRepository.getBeersPager(
+            NETWORK_PAGE_SIZE,
+            currentQuery,
+            currentBeerType
+        ).cachedIn(viewModelScope)
+    }
 
     companion object {
         private const val NETWORK_PAGE_SIZE = 25

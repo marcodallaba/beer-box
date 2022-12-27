@@ -94,14 +94,14 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
     override fun onClose(): Boolean {
         binding.searchView.setQuery("", true)
         binding.searchView.clearFocus()
-        beersViewModel.currentQuery = ""
+        beersViewModel.filterBeersByNameOrDescription("")
         searchBeers()
         return false
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         if (query != null) {
-            beersViewModel.currentQuery = query
+            beersViewModel.filterBeersByNameOrDescription(query)
             searchBeers()
         }
         return true
@@ -109,7 +109,7 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
 
     override fun onQueryTextSubmit(newText: String?): Boolean {
         if (newText != null) {
-            beersViewModel.currentQuery = newText
+            beersViewModel.filterBeersByNameOrDescription(newText)
             searchBeers()
             binding.searchView.clearFocus()
         }
@@ -127,10 +127,10 @@ class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnC
 
     private fun onChipChanged(view: CompoundButton, isChecked: Boolean) {
         if (isChecked) {
-            beersViewModel.currentBeerType = (view.tag as BeerType)
+            beersViewModel.filterBeersByBeerType(view.tag as BeerType)
             searchBeers()
         } else {
-            beersViewModel.currentBeerType = null
+            beersViewModel.filterBeersByBeerType(null)
             searchBeers()
         }
     }

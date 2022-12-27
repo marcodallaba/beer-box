@@ -4,36 +4,26 @@ import android.view.View
 import androidx.annotation.IdRes
 import it.marcodallaba.beerbox.data.Beer
 
+@OptIn(ExperimentalStdlibApi::class)
 fun Beer.type(): BeerType {
-    return when (ebc) {
-        in 0.0f..5.9f -> BeerType.PALE_LAGER
-        in 6.0f..7.9f -> BeerType.BLONDE_ALE
-        in 8.0f..11.9f -> BeerType.WEISSBIER
-        in 12.0f..15.9f -> BeerType.PALE_ALE
-        in 16.0f..19.9f -> BeerType.SAISON
-        in 20.0f..25.9f -> BeerType.EBS
-        in 26.0f..32.9f -> BeerType.DOUBLE_IPA
-        in 33.0f..38.9f -> BeerType.AMBER_ALE
-        in 39.0f..46.9f -> BeerType.BROWN_ALE
-        in 47.0f..78.9f -> BeerType.STOUT
-        in 79f..Float.MAX_VALUE -> BeerType.IMPERIAL_STOUT
-        else -> BeerType.UNKNOWN
+    return BeerType.values().first {
+        ebc in it.minEbc..<it.maxEbc
     }
 }
 
-enum class BeerType(val displayName: String) {
-    UNKNOWN("Unknown"),
-    PALE_LAGER("Pale Lager"),
-    BLONDE_ALE("Blonde Ale"),
-    WEISSBIER("Weissbier"),
-    PALE_ALE("Pale Ale"),
-    SAISON("Saison"),
-    EBS("EBS"),
-    DOUBLE_IPA("Double IPA"),
-    AMBER_ALE("Amber Ale"),
-    BROWN_ALE("Brown Ale"),
-    STOUT("Stout"),
-    IMPERIAL_STOUT("Imperial Stout");
+enum class BeerType(val displayName: String, val minEbc: Float, val maxEbc: Float) {
+    UNKNOWN("Unknown", Float.MIN_VALUE, 0.0f),
+    PALE_LAGER("Pale Lager", 0.0f, 6.0f),
+    BLONDE_ALE("Blonde Ale", 6.0f, 8.0f),
+    WEISSBIER("Weissbier", 8.0f, 12.0f),
+    PALE_ALE("Pale Ale", 12.0f, 16.0f),
+    SAISON("Saison", 16.0f, 20.0f),
+    EBS("EBS", 20.0f, 26.0f),
+    DOUBLE_IPA("Double IPA", 26.0f, 33.0f),
+    AMBER_ALE("Amber Ale", 33.0f, 39.0f),
+    BROWN_ALE("Brown Ale", 39.0f, 47.0f),
+    STOUT("Stout", 47.0f, 79.0f),
+    IMPERIAL_STOUT("Imperial Stout", 79.0f, Float.MAX_VALUE);
 }
 
 enum class BeerTypeId(@IdRes val id: Int) {

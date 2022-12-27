@@ -13,8 +13,14 @@ interface BeersDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBeers(beers: List<Beer>)
 
-    @Query("SELECT * FROM beer")
-    fun getBeersPagingSource(): PagingSource<Int, Beer>
+    @Query("SELECT * FROM beer WHERE " +
+            "(name LIKE :queryString OR description LIKE :queryString) " +
+            "AND (:minEbc IS NULL OR ebc >= :minEbc) " +
+            "AND (:maxEbc IS NULL OR ebc < :maxEbc) " +
+            "ORDER BY id ASC")
+    fun getBeersPagingSource(
+        queryString: String, minEbc: Float?, maxEbc: Float?
+    ): PagingSource<Int, Beer>
 
     @Query("DELETE FROM beer")
     suspend fun clearAllBeers()

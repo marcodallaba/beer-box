@@ -17,7 +17,7 @@
 object Versions {
     const val ACTIVITY = "1.5.1"
     const val CORE = "1.9.0"
-    const val KOTLIN = "1.7.22"
+    const val KOTLIN = "1.8.0-RC2"
     const val HILT = "2.44.2"
     const val LOGGING_INTERCEPTOR = "4.10.0"
     const val RETROFIT = "2.9.0"
