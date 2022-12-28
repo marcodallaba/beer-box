@@ -8,6 +8,9 @@ interface PunkService {
 
     @GET("beers")
     suspend fun getBeers(
+        @Query("beer_name") beerName: String?,
+        @Query("ebc_gt") ebcGT: Float?,
+        @Query("ebc_lt") ebcLT: Float?,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
     ): List<Beer>

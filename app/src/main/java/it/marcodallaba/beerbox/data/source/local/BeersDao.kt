@@ -14,7 +14,7 @@ interface BeersDao {
     suspend fun insertBeers(beers: List<Beer>)
 
     @Query("SELECT * FROM beer WHERE " +
-            "(name LIKE :queryString OR description LIKE :queryString) " +
+            "(name LIKE :queryString) " +
             "AND (:minEbc IS NULL OR ebc >= :minEbc) " +
             "AND (:maxEbc IS NULL OR ebc < :maxEbc) " +
             "ORDER BY id ASC")
@@ -24,7 +24,4 @@ interface BeersDao {
 
     @Query("DELETE FROM beer")
     suspend fun clearAllBeers()
-
-    @Query("SELECT MIN(insertTime) FROM beer")
-    suspend fun getOldestInsertTime(): Long?
 }

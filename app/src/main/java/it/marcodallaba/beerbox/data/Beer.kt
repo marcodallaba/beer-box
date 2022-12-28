@@ -18,6 +18,5 @@ data class Beer(
     @ColumnInfo(name = "image_url")
     @field:SerializedName("image_url")
     val imageUrl: String?,
-    val ebc: Float,
-    var insertTime: Long?
+    val ebc: Float
 ) : Serializable

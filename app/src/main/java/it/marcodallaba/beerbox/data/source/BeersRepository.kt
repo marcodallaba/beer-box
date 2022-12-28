@@ -20,9 +20,11 @@ class BeersRepository @Inject constructor(
     fun getBeersPager(pageSize: Int, query: String, beerType: BeerType?): Flow<PagingData<Beer>> {
 
         val dbQuery = "%${query.replace(' ', '%')}%"
+        val serviceQuery = query.ifBlank { null }
 
         return Pager(
-            config = PagingConfig(pageSize), remoteMediator = BeersRemoteMediator(db, service)
+            config = PagingConfig(pageSize),
+            remoteMediator = BeersRemoteMediator(serviceQuery, beerType, db, service)
         ) {
             db.beersDao().getBeersPagingSource(dbQuery, beerType?.minEbc, beerType?.maxEbc)
         }.flow

@@ -11,14 +11,17 @@ import it.marcodallaba.beerbox.data.source.local.BeersDao
 import it.marcodallaba.beerbox.data.source.local.BeersDatabase
 import it.marcodallaba.beerbox.data.source.local.RemoteKeysDao
 import it.marcodallaba.beerbox.data.source.remote.PunkService
+import it.marcodallaba.beerbox.util.BeerType
 import retrofit2.HttpException
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 
 @OptIn(ExperimentalPagingApi::class)
 class BeersRemoteMediator(
-    private val database: BeersDatabase, private val punkService: PunkService
+    private val query: String?,
+    private val beerType: BeerType?,
+    private val database: BeersDatabase,
+    private val punkService: PunkService
 ) : RemoteMediator<Int, Beer>() {
 
     private val beersDao: BeersDao = database.beersDao()
@@ -48,7 +51,11 @@ class BeersRemoteMediator(
             }
 
             val response = punkService.getBeers(
-                page = page, perPage = state.config.pageSize
+                query,
+                beerType?.minEbc,
+                beerType?.maxEbc,
+                page = page,
+                perPage = state.config.pageSize
             )
             val endOfPaginationReached = response.isEmpty()
 
@@ -66,8 +73,6 @@ class BeersRemoteMediator(
                 // Insert new beers into database, which invalidates the
                 // current PagingData, allowing Paging to present the updates
                 // in the DB.
-                val insertTime = System.currentTimeMillis()
-                response.forEach { it.insertTime = insertTime }
                 beersDao.insertBeers(response)
             }
 
@@ -83,19 +88,7 @@ class BeersRemoteMediator(
 
 
     override suspend fun initialize(): InitializeAction {
-        val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
-        val oldestInsertTime =
-            beersDao.getOldestInsertTime() ?: return InitializeAction.LAUNCH_INITIAL_REFRESH
-        return if (System.currentTimeMillis() - oldestInsertTime <= cacheTimeout) {
-            // Cached data is up-to-date, so there is no need to re-fetch
-            // from the network.
-            InitializeAction.SKIP_INITIAL_REFRESH
-        } else {
-            // Need to refresh cached data from network; returning
-            // LAUNCH_INITIAL_REFRESH here will also block RemoteMediator's
-            // APPEND and PREPEND from running until REFRESH succeeds.
-            InitializeAction.LAUNCH_INITIAL_REFRESH
-        }
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Beer>): RemoteKeys? {
